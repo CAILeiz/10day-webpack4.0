@@ -1,0 +1,27 @@
+{
+  "name": "10day-webpack4.0",
+  "version": "1.0.0",
+  "description": "10天搞定webpack4.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server",
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CAILeiz/10day-webpack4.0.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CAILeiz/10day-webpack4.0/issues"
+  },
+  "homepage": "https://github.com/CAILeiz/10day-webpack4.0#readme",
+  "devDependencies": {
+    "html-webpack-plugin": "^4.5.0",
+    "webpack": "^5.10.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
