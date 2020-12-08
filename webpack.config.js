@@ -20,14 +20,12 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/index.html",
             filename: "index.html", // 设置打包后的文件也叫index.html 打包之后这个html会自动引入该目录的js文件
-            minify: {
+            minify: { // 压缩方法比如去双引号啊啥的
                 removeAttributeQuotes: true, // 删除html文件中的双引号
                 collapseWhitespace: true, // 把文件弄成一行
 
             },
-            hash: true,
-
-            // 希望引用js的时候有一个hash戳 此时bundle.js后面还会加 ? hash值
+            hash: true, // 希望引用js的时候有一个hash戳 此时bundle.js后面还会加 ? hash值
         }) 
     ]
 }
