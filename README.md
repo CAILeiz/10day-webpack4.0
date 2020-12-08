@@ -31,3 +31,9 @@ npx webpack --config  webpack.config.my.js
 npm run build -- --config webpack.config.my.js
 相当于执行 webpack --config webpack.config.my.js "--config" "webpack.config.my.js"
 
+
+## loader的作用
+babel-loader
+@babel/core 里面有transform 转换方法
+@babel/preset-env 需要配置 presets: ["@babel/preset-env"] 用来把es6转换为es5
+

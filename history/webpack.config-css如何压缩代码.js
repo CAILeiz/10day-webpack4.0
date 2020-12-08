@@ -1,17 +1,17 @@
 let path = require("path");
 let HtmlWebpackPlugin = require("html-webpack-plugin");
 let  miniCssExtractPlugin = require("mini-css-extract-plugin")
-let UglifyjsPlugin = require("uglifyjs-webpack-plugin"); 
-let OptimizeCss = require("optimize-css-assets-webpack-plugin"); 
+let UglifyjsPlugin = require("uglifyjs-webpack-plugin"); // webpack默认使用这个压缩js
+let OptimizeCss = require("optimize-css-assets-webpack-plugin"); // 用来压缩css代码
 module.exports = {
     optimization: {
         minimizer: [
             new UglifyjsPlugin({
-                cache: true, 
-                parallel: true, 
-                sourceMap: true 
+                cache: true, // 是否使用缓存
+                parallel: true, // 是否并发打包js 一起压缩多个
+                sourceMap: true // es6转换为es5 源码映射
             }),
-            new OptimizeCss() 
+            new OptimizeCss() // 如果只配置这个 不会压缩js代码
         ]
     },
     devServer: { 
@@ -21,7 +21,7 @@ module.exports = {
         open: true, 
         compress: true, 
     },
-    mode: "development", 
+    mode: "production", 
     entry: "./src/index.js",
     output: {
         filename: "bundle.[hash:8].js", 
@@ -38,29 +38,16 @@ module.exports = {
             hash: true, 
         }),
         new miniCssExtractPlugin({
-            filename: "main.css" 
+            filename: "main.css" // 放到当前./build下的main.css文件中
         }) 
     ],
     module: { 
         rules: [ 
-            {
-                test: /\.js$/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: ["@babel/preset-env"],
-                        // 以下处理的是提案的语法
-                        plugins: [
-                            ["@babel/plugin-proposal-decorators", { "legacy": true }],
-                            ["@babel/plugin-proposal-class-properties", { "loose": true }]
-                        ]
-                    }
-                }
-            },
+            
             {
                 test: /\.css$/,
                 use: [
-                    miniCssExtractPlugin.loader, 
+                    miniCssExtractPlugin.loader, // 使用link引入
                     "css-loader",
                     "postcss-loader"
                 ]

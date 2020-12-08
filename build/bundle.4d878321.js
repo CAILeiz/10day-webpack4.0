@@ -97,6 +97,18 @@ eval("module.exports = \"daleizi\";\n\n//# sourceURL=webpack:///./src/a.js?");
 
 /***/ }),
 
+/***/ "./src/index.css":
+/*!***********************!*\
+  !*** ./src/index.css ***!
+  \***********************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack:///./src/index.css?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -104,7 +116,19 @@ eval("module.exports = \"daleizi\";\n\n//# sourceURL=webpack:///./src/a.js?");
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("let str = __webpack_require__(/*! ./a */ \"./src/a.js\");\r\n\r\nconsole.log(str);\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("var str = __webpack_require__(/*! ./a */ \"./src/a.js\");\n\nconsole.log(str);\n\n__webpack_require__(/*! ./index.css */ \"./src/index.css\");\n\n__webpack_require__(/*! ./index.less */ \"./src/index.less\");\n\nvar fn = function fn() {\n  console.log(\"箭头函数\");\n};\n\nfn();\n\n//# sourceURL=webpack:///./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/index.less":
+/*!************************!*\
+  !*** ./src/index.less ***!
+  \************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack:///./src/index.less?");
 
 /***/ })
 
