@@ -3,7 +3,6 @@ let HtmlWebpackPlugin = require("html-webpack-plugin");
 let  miniCssExtractPlugin = require("mini-css-extract-plugin")
 let UglifyjsPlugin = require("uglifyjs-webpack-plugin"); 
 let OptimizeCss = require("optimize-css-assets-webpack-plugin"); 
-let webpack = require("webpack");
 module.exports = {
     optimization: {
         minimizer: [
@@ -19,7 +18,7 @@ module.exports = {
         port: 3000, 
         progress: true, 
         contentBase: "./build", 
-        // open: true, 
+        open: true, 
         compress: true, 
     },
     mode: "development", 
@@ -32,54 +31,30 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/index.html",
             filename: "index.html", 
-            // minify: { 
-            //     removeAttributeQuotes: true, 
-            //     collapseWhitespace: true, 
-            // },
+            minify: { 
+                removeAttributeQuotes: true, 
+                collapseWhitespace: true, 
+            },
             hash: true, 
         }),
         new miniCssExtractPlugin({
             filename: "main.css" 
-        }),
-        new webpack.ProvidePlugin({
-            $: "jquery"
         }) 
     ],
-    externals: {
-        jquery: "$"
-    },
     module: { 
         rules: [ 
             {
-                test: /\.html$/,
-                use: "html-withimg-loader"
-            },
-            {
-                test: /\.(png|jpg|gif)$/,
-                use: {
-                    // 做一个限制 当我们的图片小于多少的时候 用base64来转换 大于的话使用file-loader将这张图片产出
-                    // base64 会比之前的图片大三分之一
-                    loader: "url-loader",
-                    options: {
-                        limit: 200 * 1024
-                    }
-                }
-            },
-            {
                 test: /\.js$/,
                 use: {
-                    loader: "babel-loader", // normal
+                    loader: "babel-loader",
                     options: {
                         presets: ["@babel/preset-env"],
                         // 以下处理的是提案的语法
                         plugins: [
                             ["@babel/plugin-proposal-decorators", { "legacy": true }],
-                            ["@babel/plugin-proposal-class-properties", { "loose": true }],
-                            "@babel/plugin-transform-runtime"
-                        ],
-                        include: path.resolve(__dirname, "src"),
-                        exclude: /node_modules/
-                    },
+                            ["@babel/plugin-proposal-class-properties", { "loose": true }]
+                        ]
+                    }
                 }
             },
             {

@@ -32,10 +32,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/index.html",
             filename: "index.html", 
-            // minify: { 
-            //     removeAttributeQuotes: true, 
-            //     collapseWhitespace: true, 
-            // },
+            minify: { 
+                removeAttributeQuotes: true, 
+                collapseWhitespace: true, 
+            },
             hash: true, 
         }),
         new miniCssExtractPlugin({
@@ -50,21 +50,17 @@ module.exports = {
     },
     module: { 
         rules: [ 
-            {
-                test: /\.html$/,
-                use: "html-withimg-loader"
-            },
-            {
-                test: /\.(png|jpg|gif)$/,
-                use: {
-                    // 做一个限制 当我们的图片小于多少的时候 用base64来转换 大于的话使用file-loader将这张图片产出
-                    // base64 会比之前的图片大三分之一
-                    loader: "url-loader",
-                    options: {
-                        limit: 200 * 1024
-                    }
-                }
-            },
+            // {
+            //     test: /\.js$/,
+            //     use: {
+            //         loader: "eslint-loader"
+            //     },
+            //     enforce: "pre" // previous
+            // },
+            // { // 引用jQuery的时候把jquery符号变成全局的方法
+            //     test: require.resolve("jquery"),
+            //     use: "expose-loader?$"
+            // },
             {
                 test: /\.js$/,
                 use: {

@@ -86,49 +86,14 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/a.js":
-/*!******************!*\
-  !*** ./src/a.js ***!
-  \******************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("module.exports = \"daleizi\";\n\n//# sourceURL=webpack:///./src/a.js?");
-
-/***/ }),
-
-/***/ "./src/index.css":
-/*!***********************!*\
-  !*** ./src/index.css ***!
-  \***********************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack:///./src/index.css?");
-
-/***/ }),
-
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-eval("var str = __webpack_require__(/*! ./a */ \"./src/a.js\");\n\nconsole.log(str);\n\n__webpack_require__(/*! ./index.css */ \"./src/index.css\");\n\n__webpack_require__(/*! ./index.less */ \"./src/index.less\");\n\nvar fn = function fn() {\n  console.log(\"箭头函数\");\n};\n\nfn();\n\n//# sourceURL=webpack:///./src/index.js?");
-
-/***/ }),
-
-/***/ "./src/index.less":
-/*!************************!*\
-  !*** ./src/index.less ***!
-  \************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack:///./src/index.less?");
+eval("// import $ from \"jquery\"\nconsole.log(window.$); // expose-loader 暴露loader 内联loader\n// pre loader 前置loader postloader 后置loader normal loader 普通loader\n// let str = require(\"./a\");\n// require(\"./index.css\")\n// require(\"./index.less\")\n// let fn = () => {\n//     console.log(\"箭头函数\");\n// }\n// fn();\n// @log\n// class A { // 相当于 new A() a = 1; 是es7里面的 需要使用到一个babel/plugin-proposal-class-properties插件\n//     a = 1\n// }\n// console.log(new A().a);\n// function log(target) {\n//     console.log(target);\n// }\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 

@@ -10,7 +10,7 @@ module.exports = {
         open: true, // 是否默认打开浏览器
         compress: true, // 启用直接微压缩
     },
-    mode: "production", // 模式默认两种 development production(不设置默认这个)
+    mode: "production", // 模式默认两种 development production(设置默认这个)
     entry: "./src/index.js",
     output: {
         filename: "bundle.[hash:8].js", // 打包后的文件名 中间可以加一个hash 文件修改后打包的时候防止出现缓存的问题
