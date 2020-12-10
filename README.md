@@ -68,3 +68,35 @@ css-loader会把url转换为 require(url)
 使用url-loader进行base64转换
 
 
+
+## 模块文件分类
+1. css文件分类
+new miniCssExtractPlugin({
+    filename: "css/main.css" 
+})
+2. img图片文件分类
+{
+    loader: "url-loader",
+    options: {
+        limit: 1,
+        outputPath: "/img/"
+    }
+}
+3. 给引用的打包文件前面加一个域名 CND加速
+3.1 给所有的打包文件加
+output: {
+    filename: "bundle.[hash:8].js", 
+    path: path.resolve(__dirname, "build"),
+    publicPath: "http://www.dalei.cn"   // 在所以引用打包的资源前面加公共路径
+},
+3.2 给图片单独加域名
+{
+    loader: "url-loader",
+    options: {
+        limit: 1,
+        outputPath: "/img/",
+        publicPath: "http://www.dalei.com" // 只会在图片前面加公共路径
+    }
+}
+
+

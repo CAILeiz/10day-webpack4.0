@@ -26,8 +26,7 @@ module.exports = {
     entry: "./src/index.js",
     output: {
         filename: "bundle.[hash:8].js", 
-        path: path.resolve(__dirname, "build"),
-        // publicPath: "http://www.dalei.cn"  在所以引用打包的资源前面加公共路径
+        path: path.resolve(__dirname, "build") 
     },
     plugins: [ 
         new HtmlWebpackPlugin({
@@ -40,7 +39,7 @@ module.exports = {
             hash: true, 
         }),
         new miniCssExtractPlugin({
-            filename: "css/main.css" 
+            filename: "main.css" 
         }),
         new webpack.ProvidePlugin({
             $: "jquery"
@@ -62,9 +61,7 @@ module.exports = {
                     // base64 会比之前的图片大三分之一
                     loader: "url-loader",
                     options: {
-                        limit: 1,
-                        outputPath: "/img/",
-                        publicPath: "http://www.dalei.com" // 只会在图片前面加公共路径
+                        limit: 200 * 1024
                     }
                 }
             },
