@@ -34,3 +34,51 @@ watchOptions: { // 监控的选项
     aggregateTimeout: 500, // 防抖
     ignored: /node_modules/ // 不需要进行监控的文件
 }
+
+## webpack 小插件应用    
+1) cleanWebpackPlugin 
+new CleanWebpackPlugin("./dist"), 如果想要清除多个文件夹的目录可以传入一个数组 如果是一个的话只需要传入一个路径文件夹
+2) copyWebpackPlugin 现在使用的版本是@1.1.1
+new CopyWebpackPlugin([ 拷贝插件
+    {from: "./doc", to: "./"}
+])
+3) bannerPlugin 这个是webpack内置的 版权声明插件 在打包出来的js头部声明一下自己的版权
+new webpack.BannerPlugin("make 2020 by dalei")
+
+## webpack跨域问题
+1)
+proxy: { 重写的方式把请求代理到express服务器上
+    "/api": {
+        target: "http:ocalhost:3000",
+        pathRewrite: {
+            "api": ""
+        }
+    } 配置了代理
+}
+2) 我们前端只想来模拟数据
+before(app) {
+    app.get("/user", (req, res) => {
+        res.json({name: "大雷子-before"})
+    })
+}
+3) 有服务端 不能用代理来处理 能不能在服务端启动webpack 端口用服务端端口 就不存在跨域问题了
+使用webpack-dev-middleware中间件
+const express = require("express");
+let app = express();
+let webpack = require("webpack");
+let middle = require("webpack-dev-middleware");
+let config = require("./webpack.config");
+let compiler = webpack(config);
+app.use(middle(compiler)); // 中间件
+app.get("/api/user", middle, (req, res) => {
+    res.json({name: "大雷子"})
+})
+app.listen(3000);
+
+ 
+
+
+
+
+
+
