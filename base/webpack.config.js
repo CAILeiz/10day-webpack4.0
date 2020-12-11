@@ -57,7 +57,8 @@ module.exports = {
                     loader: "url-loader",
                     options: {
                         limit: 1,
-                        outputPath: "/img/"
+                        outputPath: "img/",
+                        esModule: false
                         // publicPath: "http://www.dalei.com" 
                     }
                 }

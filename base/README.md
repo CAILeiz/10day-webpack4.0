@@ -64,8 +64,9 @@ img.src = logo;
 document.body.appendChild(img);
 2. 在css引入 background： url("") 
 css-loader会把url转换为 require(url)
-3. <img src="" alt=""> 使用html-withimg-loader 帮我们解析html文件 编译图片中的src
-使用url-loader进行base64转换
+3. <img src="" alt=""> 使用html-withimg-loader 帮我们解析html文件 编译图片中的src 
+使用url-loader进行base64转换 在url-loader的options中新增一个 esModule: false 可正常解析html中的img                        
+
 
 
 
@@ -79,7 +80,7 @@ new miniCssExtractPlugin({
     loader: "url-loader",
     options: {
         limit: 1,
-        outputPath: "/img/"
+        outputPath: "img/"
     }
 }
 3. 给引用的打包文件前面加一个域名 CND加速
