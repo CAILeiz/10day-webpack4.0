@@ -75,6 +75,36 @@ app.get("/api/user", middle, (req, res) => {
 })
 app.listen(3000);
 
+
+## resolve属性的配置 
+commonJs 找文件的原理默认从node_module中找,然后一直往上找
+resolve: { // 解析第三方包
+    modules: [path.resolve("node_modules")], // 规定找模块的地方 指定在当前路径的node_modules下面找
+    alias: { // 别名 vue vue.runtime
+        bootstrap: "bootstrap/dist/css/bootstrap.css"
+    },
+    extension: ['.js','.css', '.json'] // 找拓展名 先找js 再找 css 再找 json
+    // mainFields: ["style", "main"], // 在node_modules下面的packjson中先找style 再找main
+    // mainFiles: [] // 入口文件的名字 index.js
+}
+
+
+## 定义环境变量
+new webpack.DefinePlugin({
+    "DEV": JSON.stringify("production"), // 相当于console.log('production')
+    "FLAG": "true", // 相当于输出 true
+    "EXPRESSION": "1+1" // console.log(2)
+})
+console.log(DEV);
+console.log(typeof FLAG);
+console.log(EXPRESSION);
+输出production boolean 2
+
+## 区分不同的环境
+根据环境变量的不同 使用webpack-merge中的merge属性合并
+创建两个不同的环境webpack.js文件  合并webpack.base.js
+webpack.dev.js 
+webpack.prod.js
  
 
 
