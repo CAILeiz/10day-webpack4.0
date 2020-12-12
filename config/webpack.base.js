@@ -9,7 +9,7 @@ module.exports = {
         filename: "[name].js",
         path: path.resolve(__dirname, "dist")
     },
-    resolve: { // 解析第三方包
+    resolve: { // 解析第三方包指定查找的包
         modules: [path.resolve("node_modules")],
         alias: { // 别名 vue vue.runtime
             bootstrap: "bootstrap/dist/css/bootstrap.css"

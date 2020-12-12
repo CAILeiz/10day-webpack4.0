@@ -106,3 +106,78 @@ Hash: c3a5257b24b5364315d7
 Version: webpack 4.44.2
 Time: 3438ms
 5. 注意事项 如果项目比较小 启动线程也需要时间 所以小项目启动线程打包会让打包时间边长
+
+
+## webpack 自带优化
+1. tree-shaking
+在生产模式中 import 会自动去除没用的代码 require不会这样做
+es模块 会把打包结果放到default中
+let calc = require("./react.js");
+console.log(calc.default.sum(1, 2 ));
+2. scope hosting 作用域提升
+let a  = 1;
+let b  = 1;
+let c  = 1;
+let d  = a + b + c; 在webpack中自动省略a b c 直接输出3 可以简化代码
+console.log(d);
+
+
+## 抽离公共代码(多页面打包抽离公共代码)
+背景: 
+index.js 文件内容
+import "./a"
+import "./b"
+import jquery from  "jquery";
+console.log("index.js");
+
+other.js 文件内容
+import "./a"
+import "./b"
+import jquery from  "jquery";
+console.log("other.js");
+他两都用到了a和b文件 还有jquery第三方模块
+我们需要分别抽离出来
+1. 抽离公共引入的文件
+2. 抽离第三方模块
+optimization: {
+    splitChunks: { // 分割代码块   *************** 之前使用的是commonChunkPlugins插件 现在webpack4.0使用的是splitChunks
+        cacheGroups: { // 缓存组
+            common: { // 公共的模块
+                chunks: "initial",  // 从入口处开始就要提取代码了
+                minSize: 0, // 0个字节被公用就会抽取出来
+                minChunks: 2 // 公用的大于这个次数就会被抽取出来
+            }
+            vendor: { // 抽离第三方模块
+                priority: 1, // 优先级
+                test: /node_modules/,  // 把公共用到的node_modules模块抽离出来
+                chunks: "initial",  // 从入口处开始就要提取代码了
+                minSize: 0, // 0个字节被公用就会抽取出来
+                minChunks: 2
+            }
+        }
+    }
+}
+3. 打包出来的文件目录
+dist
+
+
+## 懒加载 原理 es6 草案的语法 jsonp实现动态加载文件
+(window.webpackJsonp=window.webpackJsonp||[]).push([[1],[,function(n,w,o){"use strict";o.r(w),w.default="懒加载"}]]);
+let btn = document.createElement("button");
+btn.innerHTML = "懒加载";
+路由懒加载 vue或者react都是用的import().then()
+btn.addEventListener("click", _ => {
+    console.log("click");
+    import("./source.js").then( data => {
+        console.log(data.default);
+    })
+})
+document.body.appendChild(btn)
+
+## 热更新
+1. 先在开发服务上面配置一个hot: true
+2. 配置webpack.HotModuleReplacementPlugin() 热更新的插件
+        new webpack.NamedModulesPlugin(),
+3. 配置webpack.NamedModulesPlugin()插件
+可以输出module 这里面有hot对象 里面有accept属性可以 接受哪个文件发生改变之后执行什么操作
+
