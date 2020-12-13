@@ -23,3 +23,9 @@ Tapable = {
         }
     }
 }
+
+## 同步钩子功能介绍
+SyncHook  注册事件并依次执行
+SyncBailHook 只要监听函数返回一个非undefined的值 就会停止执行  
+SyncWaterfallHook 执行的过程中除了第一个事件中的参数是传递进来的其余的都是上一个给的
+SyncLoopHook  同步执行不返回undefined的监听函数会多次执行 直到返回undefined

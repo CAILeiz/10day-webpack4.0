@@ -1,4 +1,4 @@
-// 只要监听函数返回一个非undefined的值 就会停止执行
+// 执行的过程中除了第一个事件中的参数是传递进来的其余的都是上一个给的
 class SyncWaterfallHook {
     constructor(args) { // args 想当于["name"]
         this.taps = [];

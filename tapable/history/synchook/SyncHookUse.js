@@ -1,9 +1,9 @@
-let { SyncBailHook } = require("tapable");
-console.log(SyncBailHook);
+let { SyncHook } = require("tapable");
+console.log(SyncHook);
 class Lesson {
     constructor() { 
         this.hooks = {
-            arch: new SyncBailHook(["name"])
+            arch: new SyncHook(["name"])
         }
     }
     tap() { // 注册监听事件
