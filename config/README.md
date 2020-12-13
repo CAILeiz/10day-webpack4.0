@@ -20,7 +20,7 @@ plugins: [
     })
 ]
 
-## 配置source-map(babel会把高级语法转为低级语法, source-map)
+## 配置source-map(babel会把高级语法转为低级语法, source-map) *******
 1) devtool: "source-map" 增加映射文件 可以帮我们调试源代码源码映射, 会单独生成一个sourcemap文件 出错了 会标识报错的列和行 *****大和全
 2) devtool: "eval-source-map" 不会产生单独的文件 可以显示行和列
 3) devtool: "cheap-module-source-map" 不会产生列 但是是一个单独的映射文件 产生后你可以保留起来调试  **** 不常用

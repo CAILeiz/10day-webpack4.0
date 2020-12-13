@@ -29,7 +29,7 @@ npx webpack --config  webpack.config.my.js
 },
 如果你在scripts中只写了webpack 想在命令行中执行文件则
 npm run build -- --config webpack.config.my.js
-相当于执行 webpack --config webpack.config.my.js "--config" "webpack.config.my.js"
+相当于执行 webpack --config webpack.config.my.js "--config webpack.config.my.js"
 
 
 ## 编译js语法

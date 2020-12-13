@@ -3,6 +3,7 @@
 ## noParse优化
 当我们引入一个jQuery模块的时候我们会去加载jQuery,分析jQuery有没有依赖,再去打包,
 因为一般jQuery一般没有其他模块依赖 我们不想让webpack去解析
+在module中跟rules同级中配置
 noParse: /jquery/,  不去解析jQuery中的依赖关系
 优化时间 从 5785ms 降到 5168ms
 
