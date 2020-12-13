@@ -1,14 +1,14 @@
-let { SyncHook } = require("tapable");
-console.log(SyncHook);
+let { SyncBailHook } = require("tapable");
 class Lesson {
     constructor() { 
         this.hooks = {
-            arch: new SyncHook(["name"])
+            arch: new SyncBailHook(["name"])
         }
     }
     tap() {
         this.hooks.arch.tap("vue", function(name) {
             console.log("vue", name);
+            return "想停止学习"
         });
         this.hooks.arch.tap("node", function(name) {
             console.log("node", name);

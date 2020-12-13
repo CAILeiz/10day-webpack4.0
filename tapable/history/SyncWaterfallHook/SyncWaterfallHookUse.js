@@ -1,18 +1,18 @@
-let { SyncBailHook } = require("tapable");
-console.log(SyncBailHook);
+// 我吃完饭了 你吃的就是我的剩饭
+// 瀑布 waterfall
+let { SyncWaterfallHook } = require("tapable");
 class Lesson {
     constructor() { 
         this.hooks = {
-            arch: new SyncBailHook(["name"])
+            arch: new SyncWaterfallHook(["name"])
         }
     }
-    tap() { // 注册监听事件
-        this.hooks.arch.tap("vue", function(name) {
-            console.log("vue", name);
-            return "不想学node"
-        });
+    tap() {
         this.hooks.arch.tap("node", function(name) {
             console.log("node", name);
+        });
+        this.hooks.arch.tap("vue", function(data) {
+            console.log("vue", data);
         });
     }
     start() {
@@ -22,4 +22,5 @@ class Lesson {
 let lesson = new Lesson(["name"]);
 lesson.tap();
 lesson.start(); // 启动钩子
+// 输出 node daleizi vue node学的还不错
 
