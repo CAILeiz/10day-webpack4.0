@@ -1,32 +1,27 @@
-let { AsyncSeriesHook } = require("tapable"); // 异步串行-promise版
+let { AsyncSeriesWaterfallHook } = require("tapable"); // 异步串行-promise版
 class Lesson {
     constructor() { 
         this.hooks = {
-            arch: new AsyncSeriesHook(["name"])
+            arch: new AsyncSeriesWaterfallHook(["name"])
         }
     }
     tap() {
-        this.hooks.arch.tapPromise("vue", name => {
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    console.log("vue", name);
-                    resolve();
-                }, 1000);
-            })
-            
+        this.hooks.arch.tapAsync("vue", (name, cb) => {
+            setTimeout(() => {
+                console.log("vue", name);
+                // cb(null, "result"); // cb第一个参数为null才会把参数传给下一个
+                cb('error', "result"); 
+            }, 1000);
         });
-        this.hooks.arch.tapPromise("node", name => {
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    console.log("node", name);
-                    resolve();
-                }, 1000);
-            })
-            
+        this.hooks.arch.tapAsync("node", (data, cb) => {
+            setTimeout(() => {
+                console.log("node", data);
+                cb();
+            }, 1000);
         });
     }
     start() {
-        this.hooks.arch.promise("daleizi").then(function() {
+        this.hooks.arch.callAsync("daleizi", function() {
             console.log("end");
         })
     }

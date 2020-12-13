@@ -54,3 +54,7 @@ SyncLoopHook  同步执行不返回undefined的监听函数会多次执行 直�
 源码使用的是 reduce 前一个promise执行完, .then第二个promise执行 最后返回reduce这个promise 
 在promise.then() 即可执行事件
 
+
+## AsyncSeriesWaterfallHook 异步串行瀑布钩子函数
+异步执行 把第一个函数的结果传给下一个
+// 使用tapAsync注册异步串联
