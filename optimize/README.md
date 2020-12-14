@@ -29,8 +29,8 @@ bundle.js文件大小从1.4mb 降到了870 KiB
 还需要配置一个对应的关系json文件 使用webpack.DllPlugin 里面配置的name需要和library名称一致 会输出一个json模块的对应关系
 module.exports = {
     mode: "development",
-        entry: {
-        react: ["react", "react-dom"]
+    entry: {
+    react: ["react", "react-dom"]
     },
     output: {
         filename: "_dll_[name].js", // 产生的文件名 把当前打包输出的文件定义成一个动态连接库 需要有一个清单可以找到这个文件中的所有模块
