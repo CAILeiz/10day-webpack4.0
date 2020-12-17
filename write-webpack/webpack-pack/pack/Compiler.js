@@ -1,5 +1,15 @@
 let path = require("path");
 let fs = require("fs");
+
+let babylon = require("babylon");
+let traverse = require("@babel/traverse").default;
+let t = require("@babel/types");
+let generator = require("@babel/generator").default;
+// babylon 主要是把庅转换成 ast
+// @babel/traverse 遍历节点
+// @babel/types 把遍历好的节点替换一下
+// @babel/generator 把替换好的结果生成
+
 class Compiler {
     constructor(config) {
         // entry output
@@ -33,11 +43,30 @@ class Compiler {
         // 解析需要把source源码进行改造 返回一个依赖列表
         let {sourceCode, dependencies} = this.parse(source, path.dirname(moduleName)) //path.dirname(moduleName)获取父路径 为./src
         // 把相对路径和模块中的内容对应起来
+        console.log(sourceCode);
+        console.log(dependencies);
         this.modules[moduleName] = sourceCode;
     }
     // 解析源码 主要靠AST解析语法树
     parse(source, parentPath) {
-        console.log(source, parentPath);
+        let ast = babylon.parse(source);
+        let dependencies = []; // 依赖的数组
+        traverse(ast, {
+            CallExpression(p) { 
+                console.log("p",p);
+                let node = p.node; // 对应的节点
+                if(node.callee.name === "require") {
+                    node.callee.name = "__webpack_require__";
+                    let moduleName = node.arguments[0].value; // 取到的就是模块的引用名字
+                    moduleName = moduleName + (path.extname(moduleName) ? '' : ".js");
+                    moduleName = './' +  path.join(parentPath, moduleName);
+                    dependencies.push(moduleName);
+                    node.arguments = [t.stringLiteral(moduleName)];
+                }
+            }
+        })
+        let sourceCode = generator(ast).code; // 生成的源码
+        return {sourceCode, dependencies};
     }
     emitFile() {}
     run() {
