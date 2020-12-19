@@ -11,3 +11,38 @@ C:\Users\tcsc6\AppData\Roaming\npm\node_modules\my-bundle -> C:\Users\tcsc6\Desk
 
 ## 把全局的包映射到本地
 npm link zf-pack
+
+
+
+
+## ast中的node
+ {
+  type: 'CallExpression',
+  start: 10,
+  end: 27,
+  loc: SourceLocation {
+    start: Position { line: 1, column: 10 },
+    end: Position { line: 1, column: 27 }
+  },
+  callee: Node {
+    type: 'Identifier',
+    start: 10,
+    end: 17,
+    loc: SourceLocation {
+      start: [Position],
+      end: [Position],
+      identifierName: 'require'
+    },
+    name: '__webpack_require__'
+  },
+  arguments: [
+    Node {
+      type: 'StringLiteral',
+      start: 18,
+      end: 26,
+      loc: [SourceLocation],
+      extra: [Object],
+      value: './a.js'
+    }
+  ]
+}

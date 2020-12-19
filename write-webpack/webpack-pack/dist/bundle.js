@@ -1,15 +1,28 @@
 (() => {
   var __webpack_modules__ = {
-    "./src/a.js": (module, __unused_webpack_exports, __webpack_require__) => {
-      eval(
-        "let b = __webpack_require__(/*! ./b.js */ \"./src/b.js\");\r\nmodule.exports = 'a' + b;\n\n//# sourceURL=webpack://webpack-bundle-view/./src/a.js?"
-      );
-    },
-    "./src/b.js": (module) => {
-      eval(
-        'module.exports = "b";\n\n//# sourceURL=webpack://webpack-bundle-view/./src/b.js?'
-      );
-    },
+    
+        "./src\index.js": (module, __unused_webpack_exports, __webpack_require__) => {
+          eval(
+            `let str = __webpack_require__("./src/a.js");
+
+console.log(str);`
+          );
+        },
+    
+        "./src\a.js": (module, __unused_webpack_exports, __webpack_require__) => {
+          eval(
+            `let b = __webpack_require__("./src/b.js");
+
+module.exports = 'a' + b;`
+          );
+        },
+    
+        "./src\b.js": (module, __unused_webpack_exports, __webpack_require__) => {
+          eval(
+            `module.exports = "b";`
+          );
+        },
+    
   };
   var __webpack_module_cache__ = {};
   function __webpack_require__(moduleId) {
@@ -24,7 +37,7 @@
   }
   (() => {
     eval(
-      'let str = __webpack_require__(/*! ./a.js */ "./src/a.js");\r\nconsole.log(str);\n\n//# sourceURL=webpack://webpack-bundle-view/./src/index.js?'
+      'let str = __webpack_require__("./src/index.js");'
     );
   })();
 })();

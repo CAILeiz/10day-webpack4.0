@@ -18,6 +18,7 @@
     "@babel/generator": "^7.12.11",
     "@babel/traverse": "^7.12.10",
     "@babel/types": "^7.12.11",
-    "babylon": "^6.18.0"
+    "babylon": "^6.18.0",
+    "ejs": "^3.1.5"
   }
 }
