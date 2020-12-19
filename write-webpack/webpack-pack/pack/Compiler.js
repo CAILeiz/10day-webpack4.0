@@ -32,14 +32,36 @@ class Compiler {
         // 执行 并创建模块的依赖关系 
         // params 第一个传的是打包文件的绝对路径 第二个是是否是主模块 首先就要从主模块开始编译
         this.buildModule(this.entryAbsolutePath, true);
-        console.log("modules", this.modules);
-        console.log("entryId", this.entryId);
+        // console.log("modules", this.modules);
+        // console.log("entryId", this.entryId);
 
         // 发射一个文件 打包后的文件
         this.emitFile()
     }
     getSource(modulePath) {
-        let content = fs.readFileSync(modulePath, {encoding: "utf-8"});
+        let rules = this.config.module.rules;
+        console.log("modulePath", modulePath);
+        let content = fs.readFileSync(modulePath, "utf-8");
+        for (let i = 0; i < rules.length; i++) { // 这个模块通过loader来转化
+            let rule = rules[i];
+            let {test, use} = rule;
+            let len = use.length - 1;
+            // console.log(len);
+            if(test.test(modulePath)) {
+                console.log("modulePath", modulePath);
+                // loader获取对应的loader函数
+                function normalLoader() {
+                    let loader = require(use[len--]);
+                    // 递归调用loader实现转化功能
+                    content = loader(content);
+                    console.log("content", content);
+                    if(len >= 0) {
+                        normalLoader()
+                    }
+                }
+                normalLoader();
+            }
+        }
         return content;
     }
     // 构建模块
@@ -56,9 +78,10 @@ class Compiler {
         // 把相对路径和模块中的内容对应起来
         // console.log(sourceCode);
         // console.log(dependencies);
+        moduleName = moduleName.replace(/\\/g, '/');
         this.modules[moduleName] = sourceCode;   
         dependencies.forEach(dep => { // 副模块的加载 递归加载
-            console.log("dep", dep);
+            // console.log("dep", dep);
             this.buildModule(path.join(this.root, dep), false)
         });
         // console.log("modules", this.modules);
@@ -82,7 +105,7 @@ class Compiler {
                     // console.log("moduleName", moduleName);
                     dependencies.push(moduleName);
                     
-                    console.log("dependencies", dependencies);
+                    // console.log("dependencies", dependencies);
                     node.arguments = [t.stringLiteral(moduleName)];
                 }
             }
@@ -99,7 +122,7 @@ class Compiler {
         let code = ejs.render(templateStr, {entryId: this.entryId, modules: this.modules});
         this.assets = {};
         this.assets[main] = code;
-        console.log("main", main);
+        // console.log("main", main);
         fs.writeFileSync(main, code, {flag: "w"})
     }
 }

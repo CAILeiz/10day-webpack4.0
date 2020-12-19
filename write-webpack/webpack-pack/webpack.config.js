@@ -5,5 +5,16 @@ module.exports = {
     output: {
         filename: "bundle.js",
         path: path.resolve(__dirname, "dist")
+    },
+    module: {
+        rules: [
+            {
+                test: /\.less$/,
+                use: [
+                    path.resolve(__dirname, "loaders", "style-loader"),
+                    path.resolve(__dirname, "loaders", "less-loader")
+                ]
+            }
+        ]
     }
 }
