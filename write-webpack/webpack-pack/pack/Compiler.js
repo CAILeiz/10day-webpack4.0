@@ -1,7 +1,7 @@
 let path = require("path");
 let fs = require("fs");
 let ejs = require("ejs");
-
+let {SyncHook} = require("tapable");
 let babylon = require("babylon");
 let traverse = require("@babel/traverse").default;
 let t = require("@babel/types");
@@ -20,23 +20,43 @@ class Compiler {
         // 需要保存所有的模块
         this.modules = {};
         this.entry = config.entry;
-        // 工作路径
+        // 执行该文件的工作路径 父路径
         this.root = process.cwd();
-        // console.log(this.entry, this.root);
         // ./src/index.js C:\Users\19129\Desktop\10day-webpack4.0\write-webpack\webpack-pack
-        
         // 入口文件的绝对路径
         this.entryAbsolutePath = path.join(this.root, this.entry);
+        // 声明webpack的钩子函数
+        this.hooks = {
+            entry: new SyncHook(),
+            run: new SyncHook(),
+            compile: new SyncHook(),
+            afterCompile: new SyncHook(),
+            afterPlugins: new SyncHook(),
+            emit: new SyncHook(),
+            done: new SyncHook(),
+        }
+        let plugins = this.config.plugins;
+        if(Array.isArray(plugins)) {
+            plugins.forEach( plugin => {
+                plugin.apply(this);
+            })
+        }
+        this.hooks.afterPlugins.call();
     }
     run() {
+        this.hooks.run.call(); 
         // 执行 并创建模块的依赖关系 
         // params 第一个传的是打包文件的绝对路径 第二个是是否是主模块 首先就要从主模块开始编译
+        this.hooks.compile.call(); 
         this.buildModule(this.entryAbsolutePath, true);
+        this.hooks.afterCompile.call(); 
         // console.log("modules", this.modules);
         // console.log("entryId", this.entryId);
 
         // 发射一个文件 打包后的文件
+        this.hooks.emit.call(); 
         this.emitFile()
+        this.hooks.done.call(); 
     }
     getSource(modulePath) {
         let rules = this.config.module.rules;
@@ -120,6 +140,7 @@ class Compiler {
         let main = path.join(this.config.output.path, this.config.output.filename);
         let templateStr = this.getSource(path.resolve(__dirname, "main.ejs"));
         let code = ejs.render(templateStr, {entryId: this.entryId, modules: this.modules});
+        console.log("code", code);
         this.assets = {};
         this.assets[main] = code;
         // console.log("main", main);

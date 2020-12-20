@@ -9,7 +9,6 @@ class Lesson {
     tap() { // 注册监听事件
         this.hooks.arch.tap("vue", function(name) {
             console.log("vue", name);
-            return "不想学node"
         });
         this.hooks.arch.tap("node", function(name) {
             console.log("node", name);

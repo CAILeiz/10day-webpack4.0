@@ -7,5 +7,6 @@ console.log(config);
 let Compiler = require("./Compiler.js")
 console.log();
 let compiler = new Compiler(config);
+compiler.hooks.entry.call();
 // // 标识运行编译
 compiler.run();
