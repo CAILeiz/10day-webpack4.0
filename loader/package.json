@@ -1,0 +1,16 @@
+{
+  "name": "loader",
+  "version": "1.0.0",
+  "description": "webpack只能处理javaScript的模块,如果要要处理其他类型的文件; 需要使用loader进行转换;\r loader是webpack中一个重要的概念,它是指用来将一段代码转换成另一段代码的webpack加载器",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.28.2",
+    "webpack-cli": "^3.1.2"
+  }
+}
