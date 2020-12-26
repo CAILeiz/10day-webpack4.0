@@ -1,5 +1,5 @@
 {
-  "name": "loader",
+  "name": "write-loader",
   "version": "1.0.0",
   "description": "webpack只能处理javaScript的模块,如果要要处理其他类型的文件; 需要使用loader进行转换;\r loader是webpack中一个重要的概念,它是指用来将一段代码转换成另一段代码的webpack加载器",
   "main": "webpack.config.js",
@@ -10,6 +10,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "loader-utils": "^2.0.0",
+    "schema-utils": "^3.0.0",
     "webpack": "^4.28.2",
     "webpack-cli": "^3.1.2"
   }
