@@ -19,10 +19,7 @@
 // }
 // console.log(new Person().getName());
 
-// import p from "./1.jpg"
-// let img = document.createElement("img");
-// img.src = p;
-// document.body.appendChild(img)
-
-
-require("./index.less")
+import p from "./1.jpg"
+let img = document.createElement("img");
+img.src = p;
+document.body.appendChild(img)

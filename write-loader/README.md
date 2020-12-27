@@ -9,19 +9,19 @@ loader是webpack中一个重要的概念,它是指用来将一段代码转换成
     test: /\.js$/,
     use: path.resolve(__dirname, "loaderxxx")
 }
-2. 使用provideLoader中的alias(别名)
+2. 使用resolveLoader中的alias(别名)
 resolveLoader: { 
     // modules: ["node_modules", path.resolve(__dirname, "loaders")],
     alias: {  // 别名
         loader1: path.resolve(__dirname, "loaders", "loader1.js") 
     }
 }
-3. 使用provideLoader中的modules(从左到右找)
+3. 使用resolveLoader中的modules(从左到右找)
 resolveLoader: { 
     modules: ["node_modules", path.resolve(__dirname, "loaders")]
 }
 
-## 针对同一个文件解析test配置多个loader 
+## 针对同一后缀名的文件解析配置多个loader 
 1. 第一种方式 解析的顺序问题 从右向左
 {
     test: /\.js$/,
@@ -49,7 +49,7 @@ pitch是倒着来的 normal是webpack执行loader的顺序
 eg: use["loader1", "loader2", "loader3"]
 执行顺序为
 loader1-pitch loader2-pitch loader3-pitch loader3 loader2 loader1 
-如果在编译的loader函数的属性pitch的函数内返回一个"xxx"
+如果在编译的loader函数的属性pitch的函数内返回一个"xxx" 会终止后面[特定]的normal函数
 eg:
 在loader2中尝试
 loader.pitch = function () {
@@ -62,7 +62,7 @@ loader2-pitch
 loader3~~~
 
 ## loader的特点
-第一个loader要返回js脚本 ==> 因为在bundle.js中是eval执行的 所以最后编译的时候要返回一个js脚本 return 1会报错
+第一个loader[解析的最后一个loader]要返回js脚本 ==> 因为在bundle.js中是eval执行的 所以最后编译的时候要返回一个js脚本 return 1会报错
 每个loader只做一件内容,为了使loader在更多场景链式调用每一个loader都是一个模块
 每个loader都是无状态的,确保loader在不同模块转换之间不保存状态。 ==> 不能加if(flag) ...
 
@@ -93,7 +93,7 @@ function loader(source) {
     // 第二个参数是一个Object 里面有根据什么转换 options是{ presets: [ '@babel/preset-env' ] } 
     // 第三个参数是回调函数 这个函数是异步返回的 所以需要引入cb 里面是cb cb第一个参数是err 第二个是转换成功的代码 第三个是输出map文件
     babel.transform(source, {
-        ...options,
+        ...options, // 为了解析出presets 预设
         sourceMaps: true, // 配置完map
         filename: this.resourcePath.split("/").pop() // 设置文件名
     }, function(err, result) {
@@ -145,3 +145,144 @@ configuration?: ValidationErrorConfiguration | undefined
 
 
 ## 实现file-loader及url-loader
+1. file-loader 
+a) webpack.config.js配置loader
+{
+    test: /\.jpg$/,
+    // 目的是根据图片生成一个md5戳 发射到dist目录下 file-loader还会返回当前的图片路径
+    use: "file-loader"
+}
+b) index.js入口文件引入图片
+import p from "./public.jpg" ------ p是图片路径
+let img = document.createElement("img");
+img.src = p;
+document.body.appendChild(img)
+c) file-loader.js
+let loaderUtils = require("loader-utils");
+function loader(source) {
+    // file-loader 需要返回一个路径
+    let filename = loaderUtils.interpolateName(this, '[hash].[ext]', {
+        content: source
+    })
+    console.log(source);
+    console.log(filename);
+    this.emitFile(filename, source); // 发射文件
+    return `module.exports = "${filename}"`
+}
+loader.raw = true;
+module.exports = loader;
+
+2. url-loader
+a) webpack.config.js配置loader
+ {
+    test: /\.jpg$/,
+    // url-loader 1. 交给file-loader处理路径发射文件
+    //            2. 有选项 大于limit 生成图片 反之生成base64
+    use: {
+        loader: "url-loader-my",
+        options: {
+            limit: 200 * 1024 // 200kb
+        }
+    }
+}
+b) index.js入口文件引入图片
+c) url-loader-my.js
+let loaderUtils = require("loader-utils");
+let mime = require("mime");
+function loader(source) {
+    console.log(mime.getType(this.resourcePath));
+    let { limit } = loaderUtils.getOptions(this);
+    if(limit && limit > source.length) {
+        console.log(`"data:${mime.getType(this.resourcePath)};base64,${source.toString('base64')}"`);
+        return `module.exports = "data:${mime.getType(this.resourcePath)};base64,${source.toString('base64')}"`
+    } else {
+        return require("./file-loader").call(this, source);
+    }
+}
+loader.raw = true; // 将字符串转为buffer对象
+module.exports = loader;
+
+
+## 实现style-loader css-loader less-loader解析less文件
+1. webpack.config.js配置
+{
+    test: /.less$/,
+    use: ['style-loader', 'css-loader', 'less-loader']
+}
+2. 创建index.less文件 并在入口文件中require
+3. 在loaders中创建这三个loader.js文件
+a) less-loader文件转换 使用的是less的render方法 回调成功之后res.css就是解析出来的css
+let less = require("less");
+function loader(source) {
+    let css;
+    less.render(source, function(err, r) {
+        css = r.css;
+    })
+    return css;
+}
+module.exports = loader;
+b) css-loader
+// style-loader 主要处理的是background里面的url 把url分成三部分 中间的url("xxx") 转换成 url(require('xxx')) 最后一部分是其他的css
+function loader(source) {
+    let reg = /url\((.+?)\)/g;
+    let pos = 0;
+    let current;
+    let arr = ["let list = []"];
+    while(current = reg.exec(source)) { // exec返回的是一个数组 第一个值是匹配到的内容url("xxx") 第二个值是()里面的内容 "xxx"
+        let [matchUrl, g] = current;
+        console.log(current);
+        console.log(matchUrl, g);
+        let last = reg.lastIndex - matchUrl.length; // reg.lastIndex匹配到的值的最后一位的下标 减去matchUrl的长度就是url前面的css代码
+        console.log(reg.lastIndex);
+        arr.push(`list.push(${JSON.stringify(source.slice(pos, last))})`); // 匹配到url后面的css代码
+        pos = reg.lastIndex;
+        // 把g替换成require的写法 ==> url(require("xxx"))
+        arr.push(`list.push('url(' + require(${g})+')')`);
+    }
+    arr.push(`list.push(${JSON.stringify(source.slice(pos))})`);
+    arr.push(`module.exports = list.join('')`);
+    console.log("arr", arr);
+    return arr.join('\r\n');
+}
+module.exports = loader;
+exec匹配到的current 值为
+[
+    'url("./1.jpg")',
+    '"./1.jpg"',
+    index: 40,
+    input: 'body {\n  background: red;\n  background: url("./1.jpg");\n}\n',
+    groups: undefined
+]
+arr 值为
+[
+    'let list = []',
+    'list.push("body {\\n  background: red;\\n  background: ")',
+    `list.push('url(' + require("./1.jpg")+')')`,
+    'list.push(";\\n}\\n")',
+    "module.exports = list.join('')"
+]
+c) style-loader解析 返回一个脚本 让eval执行
+let loaderUtils = require("loader-utils");
+function loader(source) {
+    // 我们可以在style-loader中导出一个脚本
+    let str = `
+        let style = document.createElement('style');
+        style.innerHTML = ${JSON.stringify(source)};
+        document.head.appendChild(style);
+    `
+    return str;
+}
+// 在style-loader上写了pitch
+// style-loader less-loader!css-loader!./index.less
+loader.pitch = function(remainingRequest) { // 剩余请求
+    // 让style-loader 去处理less-loader!css-loader/./index.less
+    // require路径 返回的就是css-loader处理好的结果 require ('!!css-loader!less-loader!index.less')
+    let str = `
+        let style = document.createElement('style');
+        style.innerHTML = require(${loaderUtils.stringifyRequest(this, '!!' + remainingRequest)});
+        document.head.appendChild(style);
+    `
+    return str;
+}
+module.exports = loader;
+// style = 'body{\r\n background: red}'

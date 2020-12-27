@@ -14,7 +14,6 @@ module.exports = {
     watch: true,
     module: {
         rules: [
-            // 实现注释loader
             // {
             //     test: /\.js/,
             //     use: {
@@ -25,7 +24,6 @@ module.exports = {
             //         }
             //     }
             // },
-            // 实现url-loader 和 file-loader
             {
                 test: /\.jpg$/,
                 // 目的是根据图片生成一个md5戳 发射到dist目录下 file-loader还会返回当前的图片路径
@@ -39,8 +37,7 @@ module.exports = {
                         limit: 200 * 1024 // 200kb
                     }
                 }
-            },
-            // 实现babel-loader 
+            }
             // {
             //     test: /\.js$/,
             //     use: {
@@ -51,11 +48,6 @@ module.exports = {
             //     },
             //     include: path.resolve(__dirname, "src"),
             // }
-            // 实现less-loader css-loader
-            {
-                test: /.less$/,
-                use: ['style-loader', 'css-loader', 'less-loader']
-            }
         ]
     }
 }
