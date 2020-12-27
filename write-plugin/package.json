@@ -1,0 +1,19 @@
+{
+  "name": "write-plugin",
+  "version": "1.0.0",
+  "description": "webpack通过 plugins 实现各种功能。\r 开发者可以通过插件引入它们自己的行为到webpack构建流程中。\r 但是需要理解一些webpack底层的内部特性来做相应的钩子",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^5.0.1",
+    "html-webpack-plugin": "^4.5.0",
+    "mini-css-extract-plugin": "^1.3.3",
+    "webpack": "^5.11.0",
+    "webpack-cli": "^4.3.0"
+  }
+}
