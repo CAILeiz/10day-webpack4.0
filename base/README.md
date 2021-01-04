@@ -3,7 +3,7 @@
 
 ## webpack安装
 - 安装本地的webpack 
-webpack webpack-cli -D (因为上线时候不需要)
+webpack webpack-cli -D (因为上线时候不需要) 执行webpack 实际是去执行webpack-dev-server
 
 ## 打包的时候 找node_module/bin/webpack.cmd 
 文件中说如果目录中存在\node.exe 则执行\node.exe 

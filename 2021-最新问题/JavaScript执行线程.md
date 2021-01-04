@@ -26,7 +26,7 @@ const output = addOne(num);
 call stack 
 |_
 addOne(3) 入回调函数栈
-栈底
+栈底为
 global()
 5. 当执行到addOne(3)的时候我们还为该函数创建一个 execution context （执行上下文）。函数中声明的任何变量都会被添加到函数的执行上下文中。
 将要添加的第一个变量是函数的参数，在本例中为 x。

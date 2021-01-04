@@ -6,7 +6,7 @@
     })
  	});
  	var __webpack_module_cache__ = {};
-   function __webpack_require__(moduleId) { // 实现了一个require方法 因为require不能在浏览器中运行
+   	function __webpack_require__(moduleId) { // 实现了一个require方法 因为require不能在浏览器中运行
  		if(__webpack_module_cache__[moduleId]) { // 先定义一个cache 判断是否有cache 如果有直接返回exports
  			return __webpack_module_cache__[moduleId].exports;
  		}

@@ -36,13 +36,14 @@ watchOptions: { // 监控的选项
 }
 
 ## webpack 小插件应用    
-1) cleanWebpackPlugin 
+1. clean-webpack-plugin cleanWebpackPlugin
 new CleanWebpackPlugin("./dist"), 如果想要清除多个文件夹的目录可以传入一个数组 如果是一个的话只需要传入一个路径文件夹
-2) copyWebpackPlugin 现在使用的版本是@1.1.1
+2. copy-webpack-plugin copyWebpackPlugin
+ 现在使用的版本是@1.1.1
 new CopyWebpackPlugin([ 拷贝插件
     {from: "./doc", to: "./"}
 ])
-3) bannerPlugin 这个是webpack内置的 版权声明插件 在打包出来的js头部声明一下自己的版权
+3. bannerPlugin 这个是webpack内置的 版权声明插件 在打包出来的js头部声明一下自己的版权
 new webpack.BannerPlugin("make 2020 by dalei")
 
 ## webpack跨域问题

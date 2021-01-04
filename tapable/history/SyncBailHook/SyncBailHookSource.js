@@ -11,6 +11,7 @@ class SyncBailHook {
         this.taps.push(task);
     }
     call(...args) {
+        console.log(...args);
         let ret, index = 0; // ret指的是函数执行的结果 index指的是函数集合的下标
         do {
             ret = this.taps[index++](...args);
@@ -23,6 +24,7 @@ hook.tap("vue", function(name) {
 });
 hook.tap("react", function(name) {
     console.log("react", name);
+    return "undefinedd";
 });
 hook.tap("node", function(name) {
     console.log("node", name);

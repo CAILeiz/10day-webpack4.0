@@ -38,7 +38,7 @@ module.exports = {
             // },
             hash: true, 
         }),
-        new miniCssExtractPlugin({
+        new miniCssExtractPlugin({ // css less类似文件打包分类到css文件夹下面
             filename: "main.css" 
         }),
         new webpack.ProvidePlugin({
@@ -64,6 +64,19 @@ module.exports = {
                         limit: 200 * 1024
                     }
                 }
+            },
+            {
+                use: [
+                    {
+                        loader: "babel-loader",
+                        options: ["@babel/preset-env"],
+                        includes: path.resolve(__dirname, "src"),
+                        exclude: /node_modules/
+                    },
+                    {
+                        loader: "eslint-loader"
+                    }
+                ]
             },
             {
                 test: /\.js$/,
