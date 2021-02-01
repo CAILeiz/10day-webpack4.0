@@ -1,4 +1,9 @@
-function fn() {
-    console.log("a.js");
+ function area(radius) {
+  return Math.PI * radius * radius;
 }
-module.exports = fn;
+
+ function circumference(radius) {
+  return 2 * Math.PI * radius;
+}
+exports.area = area;
+exports.circumference = circumference;
