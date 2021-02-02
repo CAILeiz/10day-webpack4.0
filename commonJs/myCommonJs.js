@@ -53,3 +53,4 @@ const req = (id) => {
 const func = req('./a');
 console.log(func);
 func(); // Hello
+
