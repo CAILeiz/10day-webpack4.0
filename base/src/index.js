@@ -1,5 +1,5 @@
 // 图片处理
-import logo from "./logo.png" // 或者使用require引入图片
+import logo from "./veer-165393820.jpg" // 或者使用require引入图片
 // 1. 在js中创建图片来引入
 // file-loader 默认会在内部生成一张图片 到build目录下
 // 把生成的图片的名字返回回来 logo就是返回的图片名字
@@ -27,7 +27,8 @@ document.body.appendChild(img);
 
 // let str = require("./a");
 // require("./index.css")
-require("./index.less")
+require("./index.css")
+console.log(1);
 
 // let fn = () => {
 //     console.log("箭头函数");
@@ -41,3 +42,4 @@ require("./index.less")
 // function log(target) {
 //     console.log(target);
 // }
+console.log($);

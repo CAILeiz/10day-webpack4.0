@@ -13,10 +13,10 @@
  		var module = __webpack_module_cache__[moduleId] = {
  			exports: {}
  		};
- 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__); // 给module.exports以及module_cache缓存赋值
  		return module.exports;
  	}
   (() => {
     eval("let str = __webpack_require__(/*! ./a */ \"./src/a.js\");\r\n\r\nconsole.log(str);\n\n//# sourceURL=webpack://10day-webpack4.0/./src/index.js?");
   })();
- })();
+ })(); 

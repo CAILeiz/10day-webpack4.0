@@ -3,8 +3,10 @@ let HtmlWebpackPlugin = require("html-webpack-plugin"); // 用模板生成html,�
 let miniCssExtractPlugin = require("mini-css-extract-plugin")
 let UglifyjsPlugin = require("uglifyjs-webpack-plugin"); 
 let OptimizeCss = require("optimize-css-assets-webpack-plugin"); 
+let { CleanWebpackPlugin } = require("clean-webpack-plugin");
 let webpack = require("webpack");
 module.exports = {
+    mode: "production",
     optimization: {
         minimizer: [
             new UglifyjsPlugin({
@@ -12,20 +14,24 @@ module.exports = {
                 parallel: true, 
                 sourceMap: true 
             }),
-            new OptimizeCss() 
+            new OptimizeCss({
+                assetNameRegExp: /\.optimize\.css$/g
+            }) 
         ]
     },
     devServer: { 
         port: 3000, 
         progress: true, 
         contentBase: "./build", 
-        // open: true, 
+        open: true, 
         compress: true, 
     },
     mode: "development",  
-    entry: "./src/index.js",
+    entry: {
+        index: "./src/index.js"
+    },
     output: {
-        filename: "bundle.[hash:8].js", 
+        filename: "[name].[hash:8].js", 
         path: path.resolve(__dirname, "build"),
         // publicPath: "http://www.dalei.cn"  // 在所以引用打包的资源前面加公共路径
     },
@@ -33,18 +39,21 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/index.html",
             filename: "index.html", 
-            hash: true, 
+            hash: true,
         }),
         new miniCssExtractPlugin({
             filename: "css/main.css" 
         }),
         new webpack.ProvidePlugin({
             $: "jquery"
-        }) 
+        }),
+        new CleanWebpackPlugin(),
+        new webpack.BannerPlugin("daleizi")
     ],
-    externals: {
-        jquery: "$"
-    },
+    // externals: {
+    //     jquery: "$"
+    // },
+    devtool: "cheap-module-eval-source-map",
     module: { 
         rules: [ 
             {
@@ -57,7 +66,7 @@ module.exports = {
                     loader: "url-loader",
                     options: {
                         limit: 1,
-                        outputPath: "img/",
+                        outputPath: "imgs/",
                         esModule: false
                         // publicPath: "http://www.dalei.com" 
                     }
