@@ -10,15 +10,15 @@ function loader(source) {
 }
 // 在style-loader上写了pitch
 // style-loader less-loader!css-loader!./index.less
-loader.pitch = function(remainingRequest) { // 剩余请求
-    // 让style-loader 去处理less-loader!css-loader/./index.less
-    // require路径 返回的就是css-loader处理好的结果 require ('!!css-loader!less-loader!index.less')
-    let str = `
-        let style = document.createElement('style');
-        style.innerHTML = require(${loaderUtils.stringifyRequest(this, '!!' + remainingRequest)});
-        document.head.appendChild(style);
-    `
-    return str;
-}
+// loader.pitch = function(remainingRequest) { // 剩余请求
+//     // 让style-loader 去处理less-loader!css-loader/./index.less
+//     // require路径 返回的就是css-loader处理好的结果 require ('!!css-loader!less-loader!index.less')
+//     let str = `
+//         let style = document.createElement('style');
+//         style.innerHTML = require(${loaderUtils.stringifyRequest(this, '!!' + remainingRequest)});
+//         document.head.appendChild(style);
+//     `
+//     return str;
+// }
 module.exports = loader;
 // style = 'body{\r\n background: red}'

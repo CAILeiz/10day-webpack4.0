@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防抖</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            border-radius: 20px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+    </div>
+    <script>
+        let wrap = document.getElementById("wrap");
+        wrap.addEventListener("mousemove", throttle(test))
+        function test() {
+            console.dir(this);
+            console.log("timeout")
+        }
+        // @debounce
+        // fn() await immediate(是否立即执行) 
+        // 
+        function debounce(fn, await = 500, immediate = true) {
+            let timeout = null;
+            return function() {
+                const context = this;
+                const args = arguments;
+                if(timeout) {
+                    clearTimeout(timeout);
+                }
+                if(immediate) {
+                    const callNow = !timeout;
+                    timeout = setTimeout(_ => {
+                        timeout = null;
+                    }, await)
+                    if(callNow) {
+                        fn.apply(context, args)
+                    };
+                } else {
+                    timeout = setTimeout(_ => {
+                        fn.apply(context, args);
+                    }, await)
+                }
+            }
+        }
+
+
+        // 节流
+        function throttle(fn, await = 1000) {
+            let timeout;
+            return function() {
+                let context = this;
+                let args = arguments;
+                if(!timeout) {
+                    timeout = setTimeout(() => {
+                        timeout = null;
+                        fn.apply(context, args)
+                    }, await)
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>

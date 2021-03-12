@@ -15,42 +15,42 @@ module.exports = {
     module: {
         rules: [
             // 实现注释loader
-            // {
-            //     test: /\.js/,
-            //     use: {
-            //         loader: "banner-loader", // 在js文件前面加一个注释
-            //         options: {
-            //             text: "dalei",
-            //             filename: path.resolve(__dirname, "banner.js")
-            //         }
-            //     }
-            // },
-            // 实现url-loader 和 file-loader
             {
-                test: /\.jpg$/,
-                // 目的是根据图片生成一个md5戳 发射到dist目录下 file-loader还会返回当前的图片路径
-                // use: "file-loader",
-
-                // url-loader 1. 交给file-loader处理路径发射文件
-                //            2. 有选项 大于limit 生成图片 反之生成base64
+                test: /\.js/,
                 use: {
-                    loader: "url-loader-my",
+                    loader: "banner-loader", // 在js文件前面加一个注释
                     options: {
-                        limit: 200 * 1024 // 200kb
+                        text: "dalei",
+                        filename: path.resolve(__dirname, "banner.js")
                     }
                 }
             },
-            // 实现babel-loader 
+            // 实现url-loader 和 file-loader
             // {
-            //     test: /\.js$/,
+            //     test: /\.jpg$/,
+            //     // 目的是根据图片生成一个md5戳 发射到dist目录下 file-loader还会返回当前的图片路径
+            //     // use: "file-loader",
+
+            //     // url-loader 1. 交给file-loader处理路径发射文件
+            //     //            2. 有选项 大于limit 生成图片 反之生成base64
             //     use: {
-            //         loader: "babel-loader",
+            //         loader: "url-loader-my",
             //         options: {
-            //             presets: ["@babel/preset-env"]
+            //             limit: 200 * 1024 // 200kb
             //         }
-            //     },
-            //     include: path.resolve(__dirname, "src"),
-            // }
+            //     }
+            // },
+            // 实现babel-loader 
+            {
+                test: /\.js$/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env"]
+                    }
+                },
+                include: path.resolve(__dirname, "src"),
+            },
             // 实现less-loader css-loader
             {
                 test: /.less$/,

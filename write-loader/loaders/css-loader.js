@@ -1,5 +1,6 @@
 // style-loader 主要处理的是background里面的url 把url分成三部分 中间的url("xxx") 转换成 url(require('xxx')) 最后一部分是其他的css
 function loader(source) {
+    console.log("css-loader", source);
     let reg = /url\((.+?)\)/g;
     let pos = 0;
     let current;

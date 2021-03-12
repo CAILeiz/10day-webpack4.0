@@ -4,6 +4,7 @@ function loader(source) {
     less.render(source, function(err, r) {
         css = r.css;
     })
+    console.log("less->css", css);
     return css;
 }
 module.exports = loader;

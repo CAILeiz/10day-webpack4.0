@@ -123,10 +123,13 @@ module.exports = loader;
 }
 3. 在根目录中创建banner.js文件
 4. 在loaders文件夹中创建banner-loader文件
+~~~js
 使用loader-utils模块工艺区带webpack.config.js文件中的配置上下文 获取到options用来取到filename和text用来加前缀
 其中使用 this.cacheable && this.cacheable(true) 来设置是否开启缓存 默认开启缓存
-使用 schema-utils 中的validate(schema, options, configuration)
+使用 schema-utils 中的validate(schema, options)
 schema为检测的语法规则
+const {validate} = require("schma-utils")
+let options = loaderUtils.getOptions(this);
  let schema = {
     type: "object",
     properties: {
@@ -138,12 +141,12 @@ schema为检测的语法规则
         }
     }
 }
+validate(schema, options)
 schema: Schema,
 options: Array<object> | object, 
 configuration?: ValidationErrorConfiguration | undefined
-
-
-
+~~~
+ 
 ## 实现file-loader及url-loader
 1. file-loader 
 a) webpack.config.js配置loader
