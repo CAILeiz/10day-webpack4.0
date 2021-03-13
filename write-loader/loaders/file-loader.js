@@ -4,8 +4,8 @@ function loader(source) {
     let filename = loaderUtils.interpolateName(this, '[hash].[ext]', {
         content: source
     })
-    console.log(source);
-    console.log(filename);
+    console.log("file-source", source);
+    console.log("filename", filename);
     this.emitFile(filename, source); // 发射文件
     return `module.exports = "${filename}"`
 }

@@ -6,6 +6,7 @@ function loader(source) {
         style.innerHTML = ${JSON.stringify(source)};
         document.head.appendChild(style);
     `
+    console.log("style-loader", str);
     return str;
 }
 // 在style-loader上写了pitch

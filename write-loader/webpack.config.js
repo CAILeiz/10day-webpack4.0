@@ -26,20 +26,20 @@ module.exports = {
                 }
             },
             // 实现url-loader 和 file-loader
-            // {
-            //     test: /\.jpg$/,
-            //     // 目的是根据图片生成一个md5戳 发射到dist目录下 file-loader还会返回当前的图片路径
-            //     // use: "file-loader",
+            {
+                test: /\.jpg$/,
+                // 目的是根据图片生成一个md5戳 发射到dist目录下 file-loader还会返回当前的图片路径
+                use: "file-loader",
 
-            //     // url-loader 1. 交给file-loader处理路径发射文件
-            //     //            2. 有选项 大于limit 生成图片 反之生成base64
-            //     use: {
-            //         loader: "url-loader-my",
-            //         options: {
-            //             limit: 200 * 1024 // 200kb
-            //         }
-            //     }
-            // },
+                // url-loader 1. 交给file-loader处理路径发射文件
+                //            2. 有选项 大于limit 生成图片 反之生成base64
+                // use: {
+                //     loader: "url-loader-my",
+                //     options: {
+                //         limit: 200 * 1024 // 200kb
+                //     }
+                // }
+            },
             // 实现babel-loader 
             {
                 test: /\.js$/,

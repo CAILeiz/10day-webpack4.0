@@ -131,7 +131,7 @@ __webpack_require__(/*! ./index.less */ "./src/index.less");
 
 
         let style = document.createElement('style');
-        style.innerHTML = "let list = []\r\nlist.push(\"body {\\n  background: red;\\n}\\n\")\r\nmodule.exports = list.join('')";
+        style.innerHTML = "let list = []\r\nlist.push(\"body {\\n  background: red;\\n  background: \")\r\nlist.push('url(' + require(\"./1.jpg\")+')')\r\nlist.push(\";\\n}\\n\")\r\nmodule.exports = list.join('')";
         document.head.appendChild(style);
     
 
